@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Change Detector</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0f0f0f;
+            color: #f5f5f5;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: min(960px, 92vw);
+            padding: 48px;
+            border: 1px solid #2c2c2c;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #1a1a1a, #0c0c0c);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        h1 {
+            margin-top: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        p.subtitle {
+            margin-bottom: 32px;
+            color: #c2c2c2;
+        }
+
+        form {
+            display: grid;
+            gap: 24px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #adadad;
+        }
+
+        input[type="file"] {
+            padding: 14px;
+            border: 1px dashed #555555;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            color: #dcdcdc;
+        }
+
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #f5f5f5;
+            color: #0f0f0f;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .message {
+            margin-top: 32px;
+            padding: 12px 18px;
+            border-left: 4px solid #f5f5f5;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f5f5f5;
+        }
+
+        .preview-grid {
+            margin-top: 40px;
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .panel {
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid #2c2c2c;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .panel h2 {
+            margin: 0;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #d4d4d4;
+        }
+
+        .panel img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #1f1f1f;
+        }
+
+        .download {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid #f5f5f5;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #0f0f0f;
+            background: #f5f5f5;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .download:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visual Change Detector</h1>
+        <p class="subtitle">Upload the original frame and the edited frame to highlight what changed.</p>
+        <form method="post" action="/process" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="before">Original Image</label>
+                <input id="before" name="before_image" type="file" accept="image/*" required />
+            </div>
+            <div class="input-group">
+                <label for="after">Edited Image</label>
+                <input id="after" name="after_image" type="file" accept="image/*" required />
+            </div>
+            <button type="submit">Process Changes</button>
+        </form>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if before_data or after_data or image_data %}
+        <div class="preview-grid">
+            {% if before_data %}
+            <div class="panel">
+                <h2>Original</h2>
+                <img src="data:image/png;base64,{{ before_data }}" alt="Original upload" />
+            </div>
+            {% endif %}
+            {% if after_data %}
+            <div class="panel">
+                <h2>Edited</h2>
+                <img src="data:image/png;base64,{{ after_data }}" alt="Edited upload" />
+            </div>
+            {% endif %}
+            {% if image_data %}
+            <div class="panel">
+                <h2>Detected Changes</h2>
+                <img src="data:image/png;base64,{{ image_data }}" alt="Detected changes preview" />
+                <a class="download" href="{{ download_url }}" download>Download Result</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLR Insurance Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="page-shell">
+    <header class="masthead">
+      <div class="masthead__brand">
+        <span class="masthead__label">GLR Field Gazette</span>
+        <h1>GLR Claims Factory</h1>
+        <p class="masthead__cities">Los Angeles · Montreal · New York City</p>
+      </div>
+      <div class="masthead__meta">
+        <div class="masthead__date">
+          <span class="masthead__day">March 24, 1976</span>
+          <span class="masthead__volume">Vol. 47 — Issue 12</span>
+        </div>
+        <div class="masthead__price">
+          <span class="masthead__price-value">$ GPU</span>
+          <span class="masthead__price-caption">Pipeline Edition</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="ticker">
+      <span class="ticker__label">Today in Diagnostics</span>
+      <div class="ticker__items">
+        <span class="ticker__item">USAA · Run Score 9.1</span>
+        <span class="ticker__item">Wayne-Elevate · Run Score 7.2</span>
+        <span class="ticker__item">Guide One · Run Score 8.4</span>
+        <span class="ticker__item">Diagnostics Share · 2 min ETA</span>
+        <span class="ticker__item">LLM Batch · 35% auto-complete</span>
+      </div>
+    </div>
+
+    <main class="page-body">
+      <section class="feature-grid">
+        <header class="hero">
+          <div class="hero__summary">
+            <p class="hero__date">Today · GLR pipeline</p>
+            <h1>GLR Insurance Pipeline</h1>
+            <p class="hero__lede">Gather your field reports, drop in the template, and let the pipeline prepare a polished GLR packet in minutes.</p>
+            <div class="hero__tags">
+              <span class="hero-pill">35% Auto-complete</span>
+              <span class="hero-pill">PDF + DOCX export</span>
+              <span class="hero-pill">LLM powered</span>
+            </div>
+          </div>
+          <div class="hero__focus glass">
+            <div class="focus__header">
+              <p class="eyebrow">Today's focus</p>
+              <span class="avatar-badge">GLR</span>
+            </div>
+            <h2>Generate the next GLR packet</h2>
+            <p>Keep the queue moving—upload the USAA template, attach your photo reports, and review the extracted values.</p>
+            <div class="focus__footer">
+              <button type="button" class="btn ghost" disabled>Estimated time · 2 min</button>
+              <div class="focus__progress">
+                <span>Next up</span>
+                <strong>Share diagnostics</strong>
+              </div>
+            </div>
+          </div>
+        </header>
+      </section>
+
+      <section class="panel-grid">
+        <article class="card panel panel-form">
+        <div class="panel__title-group">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h3>Drop your files</h3>
+          </div>
+          <span class="chip">Required</span>
+        </div>
+        <form id="glr-form">
+          <label class="field">
+            <span>Insurance Template (.docx)</span>
+            <input type="file" id="template" name="template" accept=".docx" required />
+          </label>
+          
+          <div id="template-preview" class="file-preview" style="display: none;">
+            <h4>Template Preview</h4>
+            <iframe id="template-preview-iframe" style="width: 100%; height: 360px; border: 1px solid transparent;"></iframe>
+          </div>
+
+          <label class="field">
+            <span>Photo Reports (.pdf, multiple allowed)</span>
+            <input type="file" id="reports" name="reports" accept="application/pdf" multiple required />
+          </label>
+          
+          <div id="reports-preview" class="file-preview" style="display: none;">
+            <h4>Photo Reports Preview</h4>
+            <div id="reports-preview-container"></div>
+          </div>
+
+          <button type="submit" id="submit-btn">Run Pipeline</button>
+        </form>
+        <p id="status" class="status"></p>
+        </article>
+      </section>
+
+      <section class="card results-card" id="results" hidden>
+        <h2 style="margin-top: 0;">Results</h2>
+        
+        <div class="preview-section">
+          <h3 style="margin-bottom: 0.75rem;">Generated Documents</h3>
+          <div class="preview-tabs">
+            <button class="tab-btn active" data-tab="pdf">PDF Preview</button>
+            <button class="tab-btn" data-tab="docx">DOCX Info</button>
+          </div>
+          
+          <div class="preview-container">
+            <div id="pdf-preview" class="preview-content active">
+              <div class="download-bar">
+                <a id="pdf-download-btn" class="btn" download>📄 Download PDF</a>
+              </div>
+              <div id="pdf-viewer-container" style="width: 100%; min-height: 600px; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                <p style="color: #666;">Loading PDF preview...</p>
+              </div>
+            </div>
+            
+            <div id="docx-preview" class="preview-content" style="display: none;">
+              <div class="download-bar">
+                <a id="docx-download-btn" class="btn" download>📝 Download DOCX</a>
+              </div>
+              <div class="docx-info" id="docx-info" style="padding: 2rem; text-align: center; color: var(--muted);">
+                <div style="margin-bottom: 1.5rem;">
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--accent-dark);">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                </div>
+                <h3 style="font-family: var(--heading-font); margin: 0 0 1rem;">Microsoft Word Document Ready</h3>
+                <p style="max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                  Your filled insurance report is packaged as a DOCX file. Download it to review formatting, make edits in Microsoft Word, or share with your client.
+                </p>
+                <div id="docx-details" style="background: rgba(251, 246, 237, 0.6); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; max-width: 400px; margin: 0 auto; text-align: left;">
+                  <p style="margin: 0 0 0.5rem; font-size: 0.9rem;"><strong>File name:</strong> <span id="docx-filename">filled_template.docx</span></p>
+                  <p style="margin: 0; font-size: 0.9rem;"><strong>Format:</strong> Microsoft Word (.docx)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="result-grid">
+          <div>
+            <h3>Detected Fields</h3>
+            <pre id="fields"></pre>
+          </div>
+          <div>
+            <h3>Filled Values</h3>
+            <pre id="values"></pre>
+          </div>
+        </div>
+        <div>
+          <h3>Report Excerpt</h3>
+          <pre id="excerpt"></pre>
+        </div>
+        <div class="actions">
+          <a id="diagnostics-link" class="btn secondary" target="_blank">View Diagnostics JSON</a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
