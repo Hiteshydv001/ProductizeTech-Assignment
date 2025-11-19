@@ -24,8 +24,7 @@ This repository contains three focused tasks that together demonstrate computer-
 - **Approach:**
   - `task_2_code.py` pairs files that follow the `scene.jpg` / `scene~2.jpg` naming convention, converts them to grayscale, computes the absolute difference, thresholds the result, dilates to merge nearby pixels, and draws red bounding boxes around the detected contours before writing annotated outputs to `task_2_output/`.
   - `app.py` exposes the same pipeline through a FastAPI server and serves a monochrome single-page interface (`templates/index.html`) that previews uploads and results with a download button.
-- **Preview:**
-  [![Task 2 Demo](https://img.youtube.com/vi/2Ju7swOPH_4/hqdefault.jpg)](https://youtu.be/2Ju7swOPH_4)
+- **Preview:** Click to open demo → [![Task 2 Demo](https://img.youtube.com/vi/2Ju7swOPH_4/hqdefault.jpg)](https://youtu.be/2Ju7swOPH_4)
 - **Run (CLI):**
   ```powershell
   cd Task-2
@@ -49,8 +48,7 @@ This repository contains three focused tasks that together demonstrate computer-
   - The pipeline in `services/` orchestrates PDF text extraction (PyMuPDF), prompt assembly, a LangChain-powered Gemini call (using credentials from `.env`), and document population via python-docx.
   - Results—completed templates, detected key-value pairs, and diagnostics JSON—are saved under `task_3_output/` for auditing. Unit tests in `tests/` guard critical template logic.
   - A static frontend in `static/` handles uploads, progress messaging, and download links, keeping deployment lightweight.
-- **Preview:**
-  [![Task 3 Demo](https://img.youtube.com/vi/4uOf5KEGAGY/hqdefault.jpg)](https://youtu.be/4uOf5KEGAGY)
+- **Preview:** Click to open demo → [![Task 3 Demo](https://img.youtube.com/vi/4uOf5KEGAGY/hqdefault.jpg)](https://youtu.be/4uOf5KEGAGY)
 - **Run:**
   ```powershell
   cd Task-3
